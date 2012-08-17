@@ -1,0 +1,17 @@
+
+syntax: regexp
+^\.settings$
+syntax: regexp
+^\.idea$
+syntax: regexp
+^mclinic\.iml$
+syntax: regexp
+\.iml$
+syntax: regexp
+^omod/\.settings$
+syntax: regexp
+^api/\.settings$
+syntax: regexp
+^api/target$
+syntax: regexp
+^omod/target$

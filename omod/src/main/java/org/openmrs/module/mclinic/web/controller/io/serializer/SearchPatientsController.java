@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping({"/module/mclinic/search/patient"})
+@RequestMapping(value = "/module/mclinic/search/patient")
 public class SearchPatientsController
 {
   @RequestMapping(method=RequestMethod.POST)

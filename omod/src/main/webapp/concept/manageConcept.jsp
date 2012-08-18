@@ -149,7 +149,7 @@
 	<tr>
 		<td>
 			<fieldset>
-				<legend><spring:message code="mclinic.conceptConfiguration.conceptConfiguration"/></legend>
+				<legend><spring:message code="mclinic.conceptConfiguration.manage"/></legend>
 				<ol>
 					<li>
 						<label for="configurationName"><spring:message code="mclinic.conceptConfiguration.name"/></label>
@@ -160,7 +160,7 @@
 						<textarea name="description" id="configurationDescription" rows="20" cols="50" readonly="readonly">${configuration.description}</textarea>
 					</li>
 					<li>
-						<a href="conceptConfiguration.form?configurationUuid=${configuration.uuid}" >
+						<a href="conceptConfiguration.form?uuid=${configuration.uuid}" >
 							<spring:message code="mclinic.conceptConfiguration.edit"/>
 						</a>
 					</li>

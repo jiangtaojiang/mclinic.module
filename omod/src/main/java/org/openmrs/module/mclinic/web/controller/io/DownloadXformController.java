@@ -11,6 +11,7 @@ import org.openmrs.module.mclinic.api.service.MclinicService;
 import org.openmrs.module.xforms.XformConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Provides mclinic download services.
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping({"/module/mclinic/download/xform"})
 public class DownloadXformController {
 	private Log log = LogFactory.getLog(this.getClass());
-
+	
+	@RequestMapping(method=RequestMethod.GET)
 	protected void getForm(HttpServletRequest request, HttpServletResponse response) {
 		MclinicService mhs = (MclinicService) Context.getService(MclinicService.class);
 		String strformId = request.getParameter("formId");
@@ -38,7 +40,7 @@ public class DownloadXformController {
 			} catch (Exception ex) {
 				log.error(ex.getMessage(), ex);
 			}
-		}else {
+		} else {
 			//Here we hope that string fileName is not null
 			try {
 				MclinicXform xform = mhs.getDownloadableXformByName(fileName);

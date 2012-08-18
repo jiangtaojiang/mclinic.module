@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.mclinic.api.utils.MclinicUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Provides file upload services to the module
@@ -29,9 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UploadXformController {
 	private static Log log = LogFactory.getLog(UploadXformController.class);
 
-	/** 
-	 * Authenticates in-line user then just delegates to doGet()
-	 */
+	@RequestMapping(method=RequestMethod.POST)
 	protected void postFile(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("Upload URL: " + request.getRequestURL());
 		String username = request.getParameter("uname");
@@ -49,7 +48,7 @@ public class UploadXformController {
 	 * Receives multipart files and saves them as individual file items on the file system
 	 * directory specified by {@link MclinicUtil#getMclinicDropDir()} 
 	 */
-	public void doSave(HttpServletRequest request, HttpServletResponse response) {
+	private void doSave(HttpServletRequest request, HttpServletResponse response) {
 
 		if (ServletFileUpload.isMultipartContent(request)) {
 			ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());

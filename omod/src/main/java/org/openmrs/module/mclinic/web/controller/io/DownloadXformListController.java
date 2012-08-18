@@ -31,9 +31,9 @@ import org.w3c.dom.NodeList;
  */
 
 @Controller
-@RequestMapping({"/module/mobilehelper/download/xformList"})
-public class DownloadFormListController {
-	private static Log log = LogFactory.getLog(DownloadFormListController.class);
+@RequestMapping({"/module/mclinic/download/xformList"})
+public class DownloadXformListController {
+	private static Log log = LogFactory.getLog(DownloadXformListController.class);
 	private static final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	private DocumentBuilder docBuilder;
 	

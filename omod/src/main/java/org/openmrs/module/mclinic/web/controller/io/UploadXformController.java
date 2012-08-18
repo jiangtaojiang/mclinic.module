@@ -49,12 +49,11 @@ public class UploadXformController {
 	 * Receives multipart files and saves them as individual file items on the file system
 	 * directory specified by {@link MclinicUtil#getMclinicDropDir()} 
 	 */
-	@SuppressWarnings("rawtypes")
 	public void doSave(HttpServletRequest request, HttpServletResponse response) {
 
 		if (ServletFileUpload.isMultipartContent(request)) {
 			ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
-			List fileItemsList = null;
+			List<?> fileItemsList = null;
 			try {
 				fileItemsList = servletFileUpload.parseRequest(request);
 			} catch (FileUploadException e) {
@@ -63,7 +62,7 @@ public class UploadXformController {
 
 			String optionalFileName = "";
 			FileItem fileItem = null;
-			Iterator iterator = fileItemsList.iterator();
+			Iterator<?> iterator = fileItemsList.iterator();
 			
 			while (iterator.hasNext()) {
 				FileItem fileItemTemp = (FileItem) iterator.next();

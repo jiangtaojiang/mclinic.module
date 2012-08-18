@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 <%@ include file="template/localHeader.jsp"%>
 
-<h2><spring:message code="xformshelper.title"/></h2>
+<h2><spring:message code="mclinic.title"/></h2>
 <br />
 <table cellpadding="4" cellspacing="0">
 	<tr>

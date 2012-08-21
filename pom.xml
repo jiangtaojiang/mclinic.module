@@ -45,8 +45,8 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
-				<artifactId>xforms</artifactId>
-				<version>3.9.5</version>
+				<artifactId>xforms-api</artifactId>
+				<version>4.0.9.6-SNAPSHOT</version>
 				<type>jar</type>
 				<scope>provided</scope>
 			</dependency>

@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mclinic.api.MclinicXform;
 import org.openmrs.module.mclinic.api.service.MclinicService;
+import org.openmrs.module.mclinic.api.utils.MclinicConstants;
 import org.openmrs.module.xforms.XformConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,8 +79,7 @@ public class DownloadXformListController {
 				}
 				xml += "\n</forms>";
 			}
-			response.setHeader("Location", "/module/mclinic/");
-			response.setContentType(XformConstants.HTTP_HEADER_CONTENT_TYPE_XML);
+			response.setHeader(MclinicConstants.HTTP_LOCATION_HEADER_NAME, MclinicConstants.HTTP_LOCATION_HEADER_VALUE);			response.setContentType(XformConstants.HTTP_HEADER_CONTENT_TYPE_XML);
 			response.getOutputStream().print(xml);
 		}
 		catch (Exception ex) {

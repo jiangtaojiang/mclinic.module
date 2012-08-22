@@ -14,6 +14,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.module.mclinic.api.utils.MclinicConstants;
 import org.openmrs.module.mclinic.api.utils.MclinicUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +36,10 @@ public class UploadXformController {
 		log.debug("Upload URL: " + request.getRequestURL());
 		String username = request.getParameter("uname");
 		String password = request.getParameter("pw");
-		if (MclinicUtil.authenticate(username, password)) {
-			response.setHeader("Location", "/module/mclinic/");
+		response.setHeader(MclinicConstants.HTTP_LOCATION_HEADER_NAME, MclinicConstants.HTTP_LOCATION_HEADER_VALUE);
+		if (MclinicUtil.authenticate(username, password))
 			doSave(request,response);
-		} else {
+		else {
 			log.warn(this.getClass().getName() + "Error authenticating");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}

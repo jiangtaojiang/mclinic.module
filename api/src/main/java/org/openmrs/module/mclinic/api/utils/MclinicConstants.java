@@ -61,6 +61,12 @@ public class MclinicConstants {
 	/** The text/xml http content type. */
 	public final static String HTTP_HEADER_CONTENT_TYPE_XML = "text/xml; charset=utf-8";
 	
+	/** The http location header name */
+	public final static String HTTP_LOCATION_HEADER_NAME = "Location";
+	
+	/** The http location header value */
+	public final static String HTTP_LOCATION_HEADER_VALUE = "/module/mclinic/";
+	
 	/** The metadata nodes prefix. */
 	public static final String METADATA_PREFIX = "/form/meta";
 

@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.mclinic.api.MclinicXform;
 import org.openmrs.module.mclinic.api.service.MclinicService;
+import org.openmrs.module.mclinic.api.utils.MclinicConstants;
 import org.openmrs.module.xforms.XformConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +34,8 @@ public class DownloadXformController {
 			try {
 				Integer formId = Integer.parseInt(strformId);
 				MclinicXform xform = mhs.getDownloadableXformByFormId(formId);
+				response.setHeader(MclinicConstants.HTTP_LOCATION_HEADER_NAME, MclinicConstants.HTTP_LOCATION_HEADER_VALUE);
 				response.setHeader(XformConstants.HTTP_HEADER_CONTENT_DISPOSITION, XformConstants.HTTP_HEADER_CONTENT_DISPOSITION_VALUE + xform.getXformName());
-				response.setHeader("Location", "/module/mclinic/");
 				response.setCharacterEncoding(XformConstants.DEFAULT_CHARACTER_ENCODING);
 				response.getWriter().print(xform.getXformXml());
 			} catch (Exception ex) {
@@ -44,6 +45,7 @@ public class DownloadXformController {
 			//Here we hope that string fileName is not null
 			try {
 				MclinicXform xform = mhs.getDownloadableXformByName(fileName);
+				response.setHeader(MclinicConstants.HTTP_LOCATION_HEADER_NAME, MclinicConstants.HTTP_LOCATION_HEADER_VALUE);
 				response.setHeader(XformConstants.HTTP_HEADER_CONTENT_DISPOSITION, XformConstants.HTTP_HEADER_CONTENT_DISPOSITION_VALUE + xform.getXformName());
 				response.setCharacterEncoding(XformConstants.DEFAULT_CHARACTER_ENCODING);
 				response.getWriter().print(xform.getXformXml());

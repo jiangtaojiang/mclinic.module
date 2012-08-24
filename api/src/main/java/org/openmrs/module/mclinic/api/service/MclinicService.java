@@ -1,22 +1,18 @@
 package org.openmrs.module.mclinic.api.service;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.SortedMap;
-
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.mclinic.api.ConceptConfiguration;
-import org.openmrs.module.mclinic.api.MclinicXform;
-import org.openmrs.module.mclinic.api.SyncLogModel;
-import org.openmrs.module.mclinic.api.XformsError;
-import org.openmrs.module.mclinic.api.XformsQueue;
+import org.openmrs.module.mclinic.api.*;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.SortedMap;
 
 /**
  * This service exposes module's core functionality. It is a Spring managed bean which is configured in moduleApplicationContext.xml.
@@ -56,12 +52,12 @@ public interface MclinicService extends OpenmrsService {
 	/**
 	 * Service method to save the concept configuration to the database
 	 *
-	 * @param conceptConfiguration the concept configuration
+	 * @param programConfiguration the concept configuration
 	 * @return saved concept configuration
 	 * @throws APIException when saving failed
 	 */
 	@Transactional
-	ConceptConfiguration saveConceptConfiguration(final ConceptConfiguration conceptConfiguration) throws APIException;
+	ProgramConfiguration saveProgramConfiguration(final ProgramConfiguration programConfiguration) throws APIException;
 
 	/**
 	 * Get concept configuration based on the configuration id
@@ -71,7 +67,7 @@ public interface MclinicService extends OpenmrsService {
 	 * @throws APIException when fetching failed
 	 */
 	@Transactional(readOnly = true)
-	ConceptConfiguration getConceptConfiguration(final Integer id) throws APIException;
+	ProgramConfiguration getProgramConfiguration(final Integer id) throws APIException;
 
 	/**
 	 * Get concept configuration based on the configuration uuid
@@ -81,7 +77,7 @@ public interface MclinicService extends OpenmrsService {
 	 * @throws APIException when fetching failed
 	 */
 	@Transactional(readOnly = true)
-	ConceptConfiguration getConceptConfigurationByUuid(final String uuid) throws APIException;
+	ProgramConfiguration getProgramConfigurationByUuid(final String uuid) throws APIException;
 
 	/**
 	 * Get all saved concept configuration
@@ -90,7 +86,7 @@ public interface MclinicService extends OpenmrsService {
 	 * @throws APIException when fetching failed
 	 */
 	@Transactional(readOnly = true)
-	List<ConceptConfiguration> getConceptConfigurations() throws APIException;
+	List<ProgramConfiguration> getProgramConfigurations() throws APIException;
 	
 	/**
 	 * A getter for all downloadable forms uploaded into the module
@@ -105,7 +101,6 @@ public interface MclinicService extends OpenmrsService {
 	 */
 	public XformsQueue getMclinicQueue(String absoluteFilePath);
 
-	//ERRORS RELATED METHODS
 	/**
 	 * Get all errors logged in the error table
 	 * @return list of {@link XformsError}

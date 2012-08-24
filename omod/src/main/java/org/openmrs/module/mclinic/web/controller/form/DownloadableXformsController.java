@@ -1,18 +1,5 @@
 package org.openmrs.module.mclinic.web.controller.form;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +25,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Controller for Downloadable xforms jsp page
  * 
@@ -47,13 +46,12 @@ import org.xml.sax.SAXException;
 public class DownloadableXformsController {
 	private static final Log log = LogFactory.getLog(DownloadableXformsController.class);
 	private static final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	private DocumentBuilder docBuilder;
-	private MclinicService mhs;
+    private MclinicService mhs;
 	
 	@RequestMapping(value="/module/mclinic/downloadableXforms", method=RequestMethod.GET)
-	public ModelMap populateForm(ModelMap map) {
+	public ModelMap populateForm(ModelMap map) throws Exception {
 		getMclinicService();
-		XformsService xfs = (XformsService) Context.getService(XformsService.class);
+		XformsService xfs = Context.getService(XformsService.class);
 		FormService fs = Context.getFormService();
 		map.addAttribute("downloadableXforms", mhs.getAllDownloadableXforms());
 		
@@ -61,23 +59,24 @@ public class DownloadableXformsController {
 		List<Xform> xforms = xfs.getXforms();
 		List<Form> forms = new ArrayList<Form>();
 		for (Xform xform : xforms) {
-			try{
-				Form form = fs.getForm(xform.getFormId());
-				if (form != null)
-					forms.add(form);
-			}catch (Exception e) {
-			}
-		}
+            Form form = fs.getForm(xform.getFormId());
+            if (form != null)
+                forms.add(form);
+        }
 		map.addAttribute("forms", forms);
+
+        //and add programs
+		map.addAttribute("programs", mhs.getProgramConfigurations());
 		return map;
 	}
 	
 	@RequestMapping(value="/module/mclinic/downloadableXforms", method=RequestMethod.POST)
 	public String saveObject(HttpSession httpSession,HttpServletRequest request,
 								@RequestParam(value ="mclinicXformId", required=false) List<Integer> listXformIds,
-								@RequestParam(value="form", required=false) Integer formIdentifier){
+								@RequestParam(value="form", required=false) Integer formIdentifier,
+								@RequestParam(value="program", required=false) Integer program){
 		MessageSourceService mss = Context.getMessageSourceService();
-		XformsService xfs = (XformsService) Context.getService(XformsService.class);
+		XformsService xfs = Context.getService(XformsService.class);
 		FormService fs = Context.getFormService();
 		
 		String action = request.getParameter("action");
@@ -114,6 +113,7 @@ public class DownloadableXformsController {
 							xform = new MclinicXform();
 							xform.setXformId(formId);
 							xform.setXformName(multipartFile.getOriginalFilename());
+							xform.setProgram(mhs.getProgramConfiguration(program));
 							xform.setXformMeta(getFormMeta());
 							xform.setXformXml(IOUtils.toString(multipartFile.getInputStream()));
 							mhs.saveDownloadableXform(xform);
@@ -157,6 +157,7 @@ public class DownloadableXformsController {
 					MclinicXform xform = new MclinicXform();
 					xform.setXformId(xforma.getFormId());
 					xform.setXformName(form.getName()+ ".xml");
+					xform.setProgram(mhs.getProgramConfiguration(program));
 					xform.setXformMeta(getFormMeta());
 					xform.setXformXml(xforma.getXformXml());
 					mhs.saveDownloadableXform(xform);
@@ -175,13 +176,13 @@ public class DownloadableXformsController {
 	
 	private void getMclinicService() {
 		if (mhs == null)
-			mhs = (MclinicService)Context.getService(MclinicService.class);
+			mhs = Context.getService(MclinicService.class);
 	}
 	
 	private Integer getFormId(InputStream is){
 		Document doc;
 		try {
-			docBuilder = docBuilderFactory.newDocumentBuilder();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			doc = docBuilder.parse(is);
 			NodeList nodeList = doc.getElementsByTagName("form");
 			if (nodeList.getLength()>0){

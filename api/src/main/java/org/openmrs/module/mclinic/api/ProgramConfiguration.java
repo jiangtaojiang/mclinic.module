@@ -5,7 +5,7 @@ import org.openmrs.BaseOpenmrsMetadata;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class ConceptConfiguration extends BaseOpenmrsMetadata {
+public class ProgramConfiguration extends BaseOpenmrsMetadata {
 
 	private Integer id;
 

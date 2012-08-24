@@ -1,4 +1,4 @@
-package org.openmrs.module.mclinic.web.controller.concept;
+package org.openmrs.module.mclinic.web.controller.program;
 
 import java.io.OutputStream;
 import java.util.List;

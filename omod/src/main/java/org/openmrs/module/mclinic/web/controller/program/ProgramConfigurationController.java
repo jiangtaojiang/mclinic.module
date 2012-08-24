@@ -1,7 +1,7 @@
-package org.openmrs.module.mclinic.web.controller.concept;
+package org.openmrs.module.mclinic.web.controller.program;
 
 import org.openmrs.api.context.Context;
-import org.openmrs.module.mclinic.api.ConceptConfiguration;
+import org.openmrs.module.mclinic.api.ProgramConfiguration;
 import org.openmrs.module.mclinic.api.service.MclinicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,43 +11,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class ConceptConfigurationController {
+public class ProgramConfigurationController {
 
-	@RequestMapping(value = "/module/mclinic/concept/conceptConfiguration", method = RequestMethod.GET)
+	@RequestMapping(value = "/module/mclinic/program/programConfiguration", method = RequestMethod.GET)
 	public void preparePage(final @RequestParam(value = "uuid", required = false) String uuid,
 	                        final Model model) {
 		MclinicService service = Context.getService(MclinicService.class);
-		ConceptConfiguration conceptConfiguration = service.getConceptConfigurationByUuid(uuid);
-		model.addAttribute("configuration", conceptConfiguration);
+		ProgramConfiguration programConfiguration = service.getProgramConfigurationByUuid(uuid);
+		model.addAttribute("configuration", programConfiguration);
 	}
 
-	@RequestMapping(value = "/module/mclinic/concept/conceptConfiguration", method = RequestMethod.POST)
+	@RequestMapping(value = "/module/mclinic/program/programConfiguration", method = RequestMethod.POST)
 	public String process(final @RequestParam(value = "name", required = true) String name,
 	                      final @RequestParam(value = "description", required = true) String description,
 	                      final @RequestParam(value = "configurationUuid", required = false) String configurationUuid) {
 		MclinicService service = Context.getService(MclinicService.class);
 
-		ConceptConfiguration conceptConfiguration = service.getConceptConfigurationByUuid(configurationUuid);
-		if (conceptConfiguration == null)
-			conceptConfiguration = new ConceptConfiguration();
-		conceptConfiguration.setName(name);
-		conceptConfiguration.setDescription(description);
+		ProgramConfiguration programConfiguration = service.getProgramConfigurationByUuid(configurationUuid);
+		if (programConfiguration == null)
+			programConfiguration = new ProgramConfiguration();
+		programConfiguration.setName(name);
+		programConfiguration.setDescription(description);
 
-		service.saveConceptConfiguration(conceptConfiguration);
+		service.saveProgramConfiguration(programConfiguration);
 
-		return "redirect:manageConcept.form?uuid=" + conceptConfiguration.getUuid();
+		return "redirect:manageProgram.form?uuid=" + programConfiguration.getUuid();
 	}
 
-	@RequestMapping(value = "/module/mclinic/concept/deleteConfiguration", method = RequestMethod.GET)
+	@RequestMapping(value = "/module/mclinic/program/deleteConfiguration", method = RequestMethod.GET)
 	public
 	@ResponseBody
 	Boolean delete(final @RequestParam(value = "uuid", required = false) String uuid) {
 		Boolean deleted = Boolean.FALSE;
 		MclinicService service = Context.getService(MclinicService.class);
-		ConceptConfiguration conceptConfiguration = service.getConceptConfigurationByUuid(uuid);
-		if (conceptConfiguration != null) {
-			conceptConfiguration.setRetired(Boolean.TRUE);
-			service.saveConceptConfiguration(conceptConfiguration);
+		ProgramConfiguration programConfiguration = service.getProgramConfigurationByUuid(uuid);
+		if (programConfiguration != null) {
+			programConfiguration.setRetired(Boolean.TRUE);
+			service.saveProgramConfiguration(programConfiguration);
 			deleted = Boolean.TRUE;
 		}
 		return deleted;

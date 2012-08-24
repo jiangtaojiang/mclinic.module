@@ -1,8 +1,5 @@
 package org.openmrs.module.mclinic.api.db.hibernate;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,10 +12,13 @@ import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.db.DAOException;
-import org.openmrs.module.mclinic.api.ConceptConfiguration;
 import org.openmrs.module.mclinic.api.MclinicXform;
+import org.openmrs.module.mclinic.api.ProgramConfiguration;
 import org.openmrs.module.mclinic.api.XformsError;
 import org.openmrs.module.mclinic.api.db.MclinicDAO;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * It is a default implementation of  {@link org.openmrs.module.mclinic.api.db.MclinicDAO}.
@@ -71,53 +71,53 @@ public class HibernateMclinicDAO implements MclinicDAO {
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.api.service.MclinicService#saveConceptConfiguration(org.openmrs.module.mclinic.api.ConceptConfiguration)
+	 * @see org.openmrs.module.mclinic.api.service.MclinicService#saveProgramConfiguration(org.openmrs.module.mclinic.api.ProgramConfiguration)
 	 */
 	@Override
-	public ConceptConfiguration saveConceptConfiguration(final ConceptConfiguration conceptConfiguration) throws DAOException {
-		sessionFactory.getCurrentSession().saveOrUpdate(conceptConfiguration);
-		return conceptConfiguration;
+	public ProgramConfiguration saveProgramConfiguration(final ProgramConfiguration programConfiguration) throws DAOException {
+		sessionFactory.getCurrentSession().saveOrUpdate(programConfiguration);
+		return programConfiguration;
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.api.service.MclinicService#getConceptConfiguration(Integer)
+	 * @see org.openmrs.module.mclinic.api.service.MclinicService#getProgramConfiguration(Integer)
 	 */
 	@Override
-	public ConceptConfiguration getConceptConfiguration(final Integer id) throws DAOException {
-		return (ConceptConfiguration) sessionFactory.getCurrentSession().get(ConceptConfiguration.class, id);
+	public ProgramConfiguration getProgramConfiguration(final Integer id) throws DAOException {
+		return (ProgramConfiguration) sessionFactory.getCurrentSession().get(ProgramConfiguration.class, id);
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.api.service.MclinicService#getConceptConfigurationByUuid(String)
+	 * @see org.openmrs.module.mclinic.api.service.MclinicService#getProgramConfigurationByUuid(String)
 	 */
 	@Override
-	public ConceptConfiguration getConceptConfigurationByUuid(final String uuid) throws DAOException {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ConceptConfiguration.class);
+	public ProgramConfiguration getProgramConfigurationByUuid(final String uuid) throws DAOException {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ProgramConfiguration.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
 		criteria.add(Restrictions.eq("retired", Boolean.FALSE));
-		return (ConceptConfiguration) criteria.uniqueResult();
+		return (ProgramConfiguration) criteria.uniqueResult();
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.api.service.MclinicService#getConceptConfigurations()
+	 * @see org.openmrs.module.mclinic.api.service.MclinicService#getProgramConfigurations()
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<ConceptConfiguration> getConceptConfigurations() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ConceptConfiguration.class);
+	public List<ProgramConfiguration> getProgramConfigurations() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ProgramConfiguration.class);
 		criteria.add(Restrictions.eq("retired", Boolean.FALSE));
 		return criteria.list();
 	}
 	
 	/**
-	 * @see org.openmrs.module.mclinic.db.MclinicDAO#saveErrorInDatabase(org.openmrs.module.mclinic.XformsError)
+	 * @see org.openmrs.module.mclinic.api.db.MclinicDAO#saveErrorInDatabase(org.openmrs.module.mclinic.api.XformsError)
 	 */
 	public void saveErrorInDatabase(XformsError xformsError) {
 		sessionFactory.getCurrentSession().saveOrUpdate(xformsError);
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.db.MclinicDAO#getAllXformsErrors()
+	 * @see org.openmrs.module.mclinic.api.db.MclinicDAO#getAllXformsErrors()
 	 */
 	@SuppressWarnings("unchecked")
 	public List<XformsError> getAllXformsErrors() {
@@ -126,7 +126,7 @@ public class HibernateMclinicDAO implements MclinicDAO {
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.db.MclinicDAO#getErrorById(java.lang.Integer)
+	 * @see org.openmrs.module.mclinic.api.db.MclinicDAO#getErrorById(java.lang.Integer)
 	 */
 	public XformsError getErrorById(Integer errorId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(XformsError.class);
@@ -135,14 +135,14 @@ public class HibernateMclinicDAO implements MclinicDAO {
 	}
 
 	/**
-	 * @see org.openmrs.module.mclinic.db.MclinicDAO#deleteError(org.openmrs.module.mclinic.XformsError)
+	 * @see org.openmrs.module.mclinic.api.db.MclinicDAO#deleteError(org.openmrs.module.mclinic.api.XformsError)
 	 */
 	public void deleteError(XformsError error) {
 		sessionFactory.getCurrentSession().delete(error);
 	}
 	
 	/**
-	 * @see org.openmrs.module.mclinic.db.MclinicDAO#getAllDownloadableXforms()
+	 * @see org.openmrs.module.mclinic.api.db.MclinicDAO#getAllDownloadableXforms()
 	 */
 	@SuppressWarnings("unchecked")
 	public List<MclinicXform> getAllDownloadableXforms() {

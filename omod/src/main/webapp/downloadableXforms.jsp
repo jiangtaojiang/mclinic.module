@@ -5,45 +5,76 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 <%@ include file="template/localHeader.jsp" %>
 
-<h2><spring:message code="mclinic.downloadableXforms" /></h2>	
+<script type="text/javascript">
+	$j(document).ready(function() {
+		$j('#addFormPopup').dialog({
+			autoOpen: false,
+			modal: true,
+			title: '<spring:message code="mclinic.downloadableXforms.add" javaScriptEscape="true"/>',
+			width: '90%'
+		});
+				
+		$j('#addFormButton').click(function() {
+			$j('#addFormPopup').dialog('open');
+		});
 
-<div style="width: 50.5%; float: left; margin-left: 4px;">
-	<b class="boxHeader"><spring:message code="mclinic.downloadableXforms.filesystem.add"/></b>
-	<div class="box">
-		<form id="resourceAddForm" name="uploader" onSubmit="return checkType();" method="post" enctype="multipart/form-data">
-			<input type="file" name="resourceFile" size="40" />
-			<input type="submit" name="action" value='<spring:message code="mclinic.downloadableXforms.upload"/>'/>
-		</form>
-	</div>
-</div>
-<div style="width: 48.5%; float: right; margin-left: 4px;">
-	<b class="boxHeader"><spring:message code="mclinic.downloadableXforms.database.add"/></b>
-	<div class="box">
-		<form id="loadXform" name="formLoader" method="post" enctype="multipart/form-data">
-			<spring:message code="mclinic.downloadableXforms.select"/>
-			<select id="form" name="form">
-				<c:forEach items="${forms}" var="form">
-					<option value="${form.id}">${form.name}</option>
-				</c:forEach>
-			</select>
-			<input type="submit" name="action" value='<spring:message code="mclinic.downloadableXforms.loadXform"/>'/>
-		</form>
-	</div>
-</div>
+	});
+</script>
 
-<br style="clear:both"/>
-<br/>
+<h2><spring:message code="mclinic.downloadableXforms" /></h2>
+
+<div id="buttonPanel">
+	<div style="float:left">
+		<input type="button" id="addFormButton" value='<spring:message code="mclinic.downloadableXforms.add"/>'/>
+		<div id="addFormPopup">
+			<br/>
+			<form id="resourceAddForm" name="uploader" method="post" enctype="multipart/form-data">
+				<spring:message code="mclinic.downloadableXforms.add.program"/>
+				<select id="program" name="program">
+					<option value="0">Select Program</option>
+					<c:forEach items="${programs}" var="program">
+						<option value="${program.id}">${program.name}</option>
+					</c:forEach>
+				</select>
+				<br/>
+				<br/>
+				<b class="boxHeader"><spring:message code="mclinic.downloadableXforms.add.filesystem"/></b>
+				<div class="box">
+					<input type="file" name="resourceFile" size="40"  />
+					<input type="submit" name="action" value='<spring:message code="mclinic.downloadableXforms.upload"/>'
+						onClick="return (checkType() && checkProgram());"/>
+				</div>
+				<br/>
+	
+				<b class="boxHeader"><spring:message code="mclinic.downloadableXforms.add.database"/></b>
+				<div class="box">
+					<spring:message code="mclinic.downloadableXforms.select"/>
+					<select id="form" name="form">
+						<c:forEach items="${forms}" var="form">
+							<option value="${form.id}">${form.name}</option>
+						</c:forEach>
+					</select>
+					<input type="submit" name="action" value='<spring:message code="mclinic.downloadableXforms.loadXform"/>'
+						onClick="return checkProgram();"/>
+				</div>
+				<br/>
+			</form>
+		</div>
+	</div>
+	<div style="clear:both">&nbsp;</div>
+</div>	
 
 <c:if test="${fn:length(downloadableXforms) > 0}">
-	<div style="width=70%; margin-left: 4px;">
-		<b class="boxHeader"><spring:message code="mclinic.downloadableXforms.manage"/></b>
+	<div style="width:70%;">
+		<b class="boxHeader"><spring:message code="mclinic.downloadableXforms"/></b>
 		<div class="box">
-			<form method="post" name="resourcesForm" onSubmit="return checkSelected(this)">
+			<form method="post" name="resourcesForm" onSubmit="return (checkSelected(this) && confirmDelete())">
 				<table cellpadding="2" cellspacing="0" width="98%">
 					<tr>
 						<th></th>
 						<th><spring:message code="mclinic.downloadableXforms.formId"/></th>
 						<th><spring:message code="general.name"/></th>
+                        <th><spring:message code="mclinic.programConfiguration.title"/></th>
 						<th><spring:message code="mclinic.downloadableXforms.xform.uploadedOn"/></th>
 					</tr>
 					<c:forEach var="var" items="${downloadableXforms}" varStatus="status">
@@ -51,25 +82,28 @@
 							<td><input type="checkbox" name="mclinicXformId" value="${var.mclinicXformId}" onclick="clearError('mclinicXformId')"/></td>
 							<td valign="top" style="white-space: nowrap">${var.xformId}</td>
 							<td valign="top" style="white-space: nowrap">${var.xformName}</td>
+                            <td valign="top" style="white-space: nowrap">${var.program.name}</td>
 							<td valign="top">${var.xformMeta}</td>
 						</tr>
 					</c:forEach>
 				</table>
 				<input type="submit" name="action" value="<spring:message code='mclinic.downloadableXforms.delete'/>">
-				<span class="error" id="mclinicXformIdError">Nothing is selected to delete!</span>
+				<span class="error" id="mclinicXformIdError"><spring:message code='mclinic.downloadableXforms.delete.empty'/></span>
 			</form>
 		</div>
 	</div>
 </c:if>
 
 <c:if test="${fn:length(downloadableXforms) == 0}">
-	<i> &nbsp; <spring:message code="mclinic.downloadableXforms.noUploaded"/></i><br/>
+	<b class="boxHeader"><spring:message code="mclinic.downloadableXforms"/></b>
+	<div class="box">
+		<i> &nbsp; <spring:message code="mclinic.downloadableXforms.noUploaded"/></i><br/>
+	</div>
 </c:if>
 
 <br style="clear:both"/>
-<br/>
 
-<div style="margin-left: 4px;">
+<div>
 	<b class="boxHeader"><spring:message code="mclinic.downloadableXforms.help" /></b>
 	<div class="box">
 		<ul>
@@ -125,10 +159,29 @@
 		
 		var thisext = fieldvalue.substr(fieldvalue.lastIndexOf('.'));
 		for(var i = 0; i < extension.length; i++) {
-			if(thisext == extension[i]) { return true; }
+			if(thisext == extension[i]) { 
+				return true; 
 			}
-		alert("Your upload form type is not permitted.");
+		}
+		alert('<spring:message code="mclinic.downloadableXforms.upload.invalidType"/>');
 		return false;
+	}
+	
+	function checkProgram() {
+		var program = document.getElementById("program").value
+		if (program==0) {
+            alert('<spring:message code="mclinic.downloadableXforms.add.program" javaScriptEscape="true"/>');
+			return false;
+		}
+		return true;
+	}
+	
+	function confirmDelete() {
+		if (confirm('<spring:message code="mclinic.downloadableXforms.deleteWarning" javaScriptEscape="true"/>')) { 
+			return true;
+		} else {
+			return false;
+		}
 	}
 </script>
 <%@ include file="/WEB-INF/template/footer.jsp" %>

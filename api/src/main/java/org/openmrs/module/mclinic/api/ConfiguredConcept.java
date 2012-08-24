@@ -9,7 +9,7 @@ public class ConfiguredConcept extends BaseOpenmrsMetadata {
 
 	private Concept concept;
 
-	private ConceptConfiguration conceptConfiguration;
+	private ProgramConfiguration programConfiguration;
 
 	/**
 	 * @return id - The unique Identifier for the object
@@ -48,16 +48,16 @@ public class ConfiguredConcept extends BaseOpenmrsMetadata {
 	/**
 	 * @return the concept configuration
 	 */
-	public ConceptConfiguration getConceptConfiguration() {
-		return conceptConfiguration;
+	public ProgramConfiguration getConceptConfiguration() {
+		return programConfiguration;
 	}
 
 	/**
 	 * Set the concept configuration
 	 *
-	 * @param conceptConfiguration the concept configuration
+	 * @param programConfiguration the concept configuration
 	 */
-	public void setConceptConfiguration(final ConceptConfiguration conceptConfiguration) {
-		this.conceptConfiguration = conceptConfiguration;
+	public void setConceptConfiguration(final ProgramConfiguration programConfiguration) {
+		this.programConfiguration = programConfiguration;
 	}
 }

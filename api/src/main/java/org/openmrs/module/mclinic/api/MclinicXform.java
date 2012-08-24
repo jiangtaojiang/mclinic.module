@@ -1,10 +1,10 @@
 package org.openmrs.module.mclinic.api;
 
-import java.util.Date;
-
 import org.openmrs.Auditable;
 import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.User;
+
+import java.util.Date;
 
 /**
  * Xform object, stores downloadable forms
@@ -18,6 +18,7 @@ public class MclinicXform extends BaseOpenmrsObject implements Auditable{
 	private String xformName;
 	private String xformMeta;
 	private String xformXml;
+	private ProgramConfiguration program;
 	private User creator;
 	private Date dateCreated;
 
@@ -89,6 +90,20 @@ public class MclinicXform extends BaseOpenmrsObject implements Auditable{
 	 */
 	public void setXformXml(String xformXml) {
 		this.xformXml = xformXml;
+	}
+
+	/**
+	 * @return the program
+	 */
+	public ProgramConfiguration getProgram() {
+		return program;
+	}
+
+	/**
+	 * @param program the program to set
+	 */
+	public void setProgram(ProgramConfiguration program) {
+		this.program = program;
 	}
 
 	/**

@@ -113,7 +113,7 @@
 		MclinicXform.hbm.xml
 		DefinitionProperty.hbm.xml
 		ExtendedDefinition.hbm.xml
-		ConceptConfiguration.hbm.xml
+		ProgramConfiguration.hbm.xml
 		ConfiguredConcept.hbm.xml
 	</mappingFiles>
 </module>

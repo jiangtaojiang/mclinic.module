@@ -1,16 +1,16 @@
 package org.openmrs.module.mclinic.api.db;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.db.DAOException;
-import org.openmrs.module.mclinic.api.ConceptConfiguration;
 import org.openmrs.module.mclinic.api.MclinicXform;
+import org.openmrs.module.mclinic.api.ProgramConfiguration;
 import org.openmrs.module.mclinic.api.XformsError;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Database methods for {@link org.openmrs.module.mclinic.api.service.MclinicService}.
@@ -46,12 +46,12 @@ public interface MclinicDAO {
 	/**
 	 * DAO method to save the concept configuration to the database
 	 *
-	 * @param conceptConfiguration the concept configuration
+	 * @param programConfiguration the concept configuration
 	 * @return saved concept configuration
 	 * @throws org.openmrs.api.db.DAOException
 	 *          when saving failed
 	 */
-	ConceptConfiguration saveConceptConfiguration(final ConceptConfiguration conceptConfiguration) throws DAOException;
+	ProgramConfiguration saveProgramConfiguration(final ProgramConfiguration programConfiguration) throws DAOException;
 
 	/**
 	 * Get concept configuration based on the configuration id
@@ -62,18 +62,17 @@ public interface MclinicDAO {
 	 * @throws org.openmrs.api.db.DAOException
 	 *          when fetching failed
 	 */
-	ConceptConfiguration getConceptConfiguration(final Integer id) throws DAOException;
+	ProgramConfiguration getProgramConfiguration(final Integer id) throws DAOException;
 
 	/**
 	 * Get concept configuration based on the configuration uuid
-	 *
 	 *
 	 * @param uuid the concept configuration id
 	 * @return the matching concept configuration or null if no matching record found in the database
 	 * @throws org.openmrs.api.db.DAOException
 	 *          when fetching failed
 	 */
-	ConceptConfiguration getConceptConfigurationByUuid(final String uuid) throws DAOException;
+	ProgramConfiguration getProgramConfigurationByUuid(final String uuid) throws DAOException;
 
 	/**
 	 * Get all saved concept configuration
@@ -81,7 +80,7 @@ public interface MclinicDAO {
 	 * @return all saved concept configuration or empty list when there's no saved concept configuration
 	 * @throws org.openmrs.api.APIException when fetching failed
 	 */
-	List<ConceptConfiguration> getConceptConfigurations();
+	List<ProgramConfiguration> getProgramConfigurations();
 	
 	public void saveErrorInDatabase(XformsError xformsError);
 

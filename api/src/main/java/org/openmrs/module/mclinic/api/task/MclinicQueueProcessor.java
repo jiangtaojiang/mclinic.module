@@ -1,14 +1,5 @@
 package org.openmrs.module.mclinic.api.task;
 
-import java.io.File;
-import java.util.Date;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +16,14 @@ import org.openmrs.module.mclinic.api.utils.XformEditor;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.util.Date;
 
 
 /**
@@ -43,7 +42,7 @@ public class MclinicQueueProcessor {
 	private XPathFactory xPathFactory;
 	private MclinicService mhs;
 	// allow only one running instance
-	private static Boolean isRunning = false; 
+	private static Boolean isRunning = false;
 
 	public MclinicQueueProcessor(){
 		try{
@@ -56,7 +55,8 @@ public class MclinicQueueProcessor {
 	}
 	/**
 	 * Process an existing entry in the queue directory
-	 * @param filePath 
+	 * @param filePath file path of the queue
+     * @param queue the form queue to process
 	 */
 	private void processQueueForms(String filePath, XformsQueue queue) throws APIException {
 		log.debug("Processing patient forms and sending them to the xform module");
@@ -82,9 +82,9 @@ public class MclinicQueueProcessor {
 				//Ensure there is a patient identifier in the form and 
 				// if without names just delete the form
 				String tmpIdentifier = MclinicUtil.getPatientIdentifier(doc);
-				if (tmpIdentifier == null || tmpIdentifier.trim() == "") {
-					if ((familyName == null || familyName.trim() == "") &&
-							(givenName == null || givenName == "")) {
+				if (tmpIdentifier == null || tmpIdentifier.trim().equals("")) {
+					if ((familyName == null || familyName.trim().equals("")) &&
+							(givenName == null || givenName.equals(""))) {
 						MclinicUtil.deleteFile(filePath);
 						log.info("Deleted an empty individual file");
 					} else {
@@ -98,7 +98,7 @@ public class MclinicQueueProcessor {
 				}
 				
 				//Ensure Family name and Given names are not blanks
-				if (familyName == null || familyName.trim() == "" || givenName == null || givenName == "") {
+				if (familyName == null || familyName.trim().equals("") || givenName == null || givenName.equals("")) {
 					saveFormInError(filePath);
 					mhs.saveErrorInDatabase(MclinicUtil.
 							createError(getFormName(filePath), "Error processing patient", 

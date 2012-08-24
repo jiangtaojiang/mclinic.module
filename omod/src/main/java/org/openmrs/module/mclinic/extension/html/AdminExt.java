@@ -1,10 +1,10 @@
 package org.openmrs.module.mclinic.extension.html;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.openmrs.module.Extension;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This class defines the links that will appear on the administration page under the
@@ -31,7 +31,7 @@ public class AdminExt extends AdministrationSectionExt {
 	 */
 	public Map<String, String> getLinks() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("/module/mclinic/concept/configurationList.form", "mclinic.conceptConfiguration.manage");
+		map.put("/module/mclinic/program/programList.form", "mclinic.programConfiguration.manage");
 		map.put("/module/mclinic/reporting/manageProperty.form", "mclinic.cohortDefinition.manage");
 		map.put("module/mclinic/downloadableXforms.list", "mclinic.downloadableXforms");
 		map.put("module/mclinic/resolveErrors.list", "mclinic.resolveErrors.title");

@@ -42,7 +42,7 @@ public class PatientWebConnectorTest extends BaseModuleContextSensitiveTest {
 
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
 
-        int count = 0;
+        int count;
         byte[] buffer = new byte[1024];
         while ((count = inputStream.read(buffer)) > 0) {
             arrayOutputStream.write(buffer, 0, count);

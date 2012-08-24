@@ -1,21 +1,5 @@
 package org.openmrs.module.mclinic.api.service.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,14 +9,19 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.mclinic.api.ConceptConfiguration;
-import org.openmrs.module.mclinic.api.MclinicXform;
-import org.openmrs.module.mclinic.api.SyncLogModel;
-import org.openmrs.module.mclinic.api.XformsError;
-import org.openmrs.module.mclinic.api.XformsQueue;
+import org.openmrs.module.mclinic.api.*;
 import org.openmrs.module.mclinic.api.db.MclinicDAO;
 import org.openmrs.module.mclinic.api.service.MclinicService;
 import org.openmrs.module.mclinic.api.utils.MclinicUtil;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * It is a default implementation of {@link org.openmrs.module.mclinic.api.service.MclinicService}.
@@ -97,13 +86,13 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 	/**
 	 * Service method to save the concept configuration to the database
 	 *
-	 * @param conceptConfiguration the concept configuration
+	 * @param programConfiguration the concept configuration
 	 * @return saved concept configuration
 	 * @throws org.openmrs.api.APIException when saving failed
 	 */
 	@Override
-	public ConceptConfiguration saveConceptConfiguration(final ConceptConfiguration conceptConfiguration) throws APIException {
-		return dao.saveConceptConfiguration(conceptConfiguration);
+	public ProgramConfiguration saveProgramConfiguration(final ProgramConfiguration programConfiguration) throws APIException {
+		return dao.saveProgramConfiguration(programConfiguration);
 	}
 
 	/**
@@ -114,8 +103,8 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 	 * @throws org.openmrs.api.APIException when fetching failed
 	 */
 	@Override
-	public ConceptConfiguration getConceptConfiguration(final Integer id) throws APIException {
-		return dao.getConceptConfiguration(id);
+	public ProgramConfiguration getProgramConfiguration(final Integer id) throws APIException {
+		return dao.getProgramConfiguration(id);
 	}
 
 	/**
@@ -126,8 +115,8 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 	 * @throws org.openmrs.api.APIException when fetching failed
 	 */
 	@Override
-	public ConceptConfiguration getConceptConfigurationByUuid(final String uuid) throws APIException {
-		return dao.getConceptConfigurationByUuid(uuid);
+	public ProgramConfiguration getProgramConfigurationByUuid(final String uuid) throws APIException {
+		return dao.getProgramConfigurationByUuid(uuid);
 	}
 
 	/**
@@ -137,8 +126,8 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 	 * @throws org.openmrs.api.APIException when fetching failed
 	 */
 	@Override
-	public List<ConceptConfiguration> getConceptConfigurations() throws APIException {
-		return dao.getConceptConfigurations();
+	public List<ProgramConfiguration> getProgramConfigurations() throws APIException {
+		return dao.getProgramConfigurations();
 	}
 	
 	/* (non-Javadoc)
@@ -248,12 +237,12 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 		File logFile = new File(logFileName);
 		if (!logFile.exists())
 			return null;			
-		String line = null;
+		String line;
 		try {
 			BufferedReader input =  new BufferedReader(new FileReader(logFile));
 			try {
 				while (( line = input.readLine()) != null){
-					if (line.indexOf(",")!=-1) {
+					if (line.contains(",")) {
 						SyncLogModel logModel = getLogModel(line);
 						if (logModel != null)
 							logList.add(logModel);
@@ -276,13 +265,13 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 	private static SyncLogModel getLogModel(String line) {
 		SyncLogModel syncLogModel = new SyncLogModel();
 		// syncId
-		if (line.indexOf(",") != -1) {
+		if (line.contains(",")) {
 			syncLogModel.setSyncId(Integer.parseInt(line.substring(0,line.indexOf(","))));
 			line=line.substring(line.indexOf(",") + 1);
 		}else
 			return null;
 		// syncDate
-		if (line.indexOf(",") != -1) {
+		if (line.contains(",")) {
 			try {
 				DateFormat df =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				syncLogModel.setSyncDate(df.parse(line.substring(0,line.indexOf(","))));
@@ -295,38 +284,37 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 			return null;
 		
 		// providerId
-		if (line.indexOf(",") != -1) {
+		if (line.contains(",")) {
 			syncLogModel.setProviderId(line.substring(0,line.indexOf(",")));
 			line=line.substring(line.indexOf(",") + 1);
 		}else
 			return null;
 		
 		// deviceId
-		if (line.indexOf(",") != -1) {
+		if (line.contains(",")) {
 			syncLogModel.setDeviceId(line.substring(0,line.indexOf(",")));
 			line=line.substring(line.indexOf(",") + 1);
 		}else
 			return null;
 		
 		// 	householdId;
-		if (line.indexOf(",") != -1) {
+		if (line.contains(",")) {
 			syncLogModel.setHouseholdId(line.substring(0,line.indexOf(",")));
 			line=line.substring(line.indexOf(",") + 1);
 		}else
 			return syncLogModel;
 		
 		// fileName;
-		if (line.indexOf(",") != -1) {
+		if (line.contains(",")) {
 			syncLogModel.setFileName(line.substring(0,line.indexOf(",")));
 			line=line.substring(line.indexOf(",") + 1);
 		}else
 			return syncLogModel;
 		
 		// fileSize;
-		if (line.indexOf(",") != -1) {
+		if (line.contains(","))
 			syncLogModel.setFileSize(line.substring(0,line.indexOf(",")));
-			line=line.substring(line.indexOf(",") + 1);
-		}else
+		else
 			syncLogModel.setFileSize(line);
 		
 		return syncLogModel;
@@ -343,7 +331,7 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 		DateFormat df =new SimpleDateFormat("yyyy-MM-dd");
 		for (File file : logDir.listFiles()) {
 			String fileName=file.getName();
-			if (fileName.indexOf("-") != -1 && fileName.indexOf(".") != -1) {
+			if (fileName.contains("-") && fileName.contains(".")) {
 				try {
 					fileName=fileName.substring(fileName.indexOf("-")+1,fileName.lastIndexOf("."));
 					Date date = df.parse(fileName);

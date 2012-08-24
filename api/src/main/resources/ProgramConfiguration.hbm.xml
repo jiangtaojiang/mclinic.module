@@ -4,7 +4,7 @@
 		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping>
-	<class name="org.openmrs.module.mclinic.api.ConceptConfiguration" table="mclinic_concept_configuration">
+	<class name="org.openmrs.module.mclinic.api.ProgramConfiguration" table="mclinic_program_configuration">
 		<id name="id" type="int" column="id" unsaved-value="0">
 			<generator class="native"/>
 		</id>

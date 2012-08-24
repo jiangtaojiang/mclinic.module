@@ -5,9 +5,9 @@
 	</li>
 	
     <li
-    <c:if test='<%= request.getRequestURI().contains("/mclinic/concept") %>'>class="active"</c:if>>
-    <a href="${pageContext.request.contextPath}/module/mclinic/concept/configurationList.form">
-        <spring:message code="mclinic.conceptConfiguration.manage"/>
+    <c:if test='<%= request.getRequestURI().contains("/mclinic/program") %>'>class="active"</c:if>>
+    <a href="${pageContext.request.contextPath}/module/mclinic/program/programList.form">
+        <spring:message code="mclinic.programConfiguration.manage"/>
     </a>
     </li>
 

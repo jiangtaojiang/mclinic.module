@@ -149,19 +149,19 @@
 	<tr>
 		<td>
 			<fieldset>
-				<legend><spring:message code="mclinic.conceptConfiguration.manage"/></legend>
+				<legend><spring:message code="mclinic.programConfiguration.manage"/></legend>
 				<ol>
 					<li>
-						<label for="configurationName"><spring:message code="mclinic.conceptConfiguration.name"/></label>
+						<label for="configurationName"><spring:message code="mclinic.programConfiguration.name"/></label>
 						<input name="name" type="text" id="configurationName" value="${configuration.name}" readonly="readonly"/>
 					</li>
 					<li>
-						<label for="configurationDescription"><spring:message code="mclinic.conceptConfiguration.description"/></label>
+						<label for="configurationDescription"><spring:message code="mclinic.programConfiguration.description"/></label>
 						<textarea name="description" id="configurationDescription" rows="20" cols="50" readonly="readonly">${configuration.description}</textarea>
 					</li>
 					<li>
 						<a href="conceptConfiguration.form?uuid=${configuration.uuid}" >
-							<spring:message code="mclinic.conceptConfiguration.edit"/>
+							<spring:message code="mclinic.programConfiguration.edit"/>
 						</a>
 					</li>
 				</ol>
@@ -170,11 +170,11 @@
 		<td style="width: 100%; vertical-align: top;">
 			<form method="post">
 				<fieldset>
-					<legend><spring:message code="mclinic.conceptConfiguration.concepts"/></legend>
+					<legend><spring:message code="mclinic.programConfiguration.concepts"/></legend>
 					<ol>
 						<li>
 							<input type="hidden" name="configurationUuid" value="${configuration.uuid}" />
-							<label for="conceptList"><spring:message code="mclinic.conceptConfiguration.conceptList"/></label>
+							<label for="conceptList"><spring:message code="mclinic.programConfiguration.conceptList"/></label>
 							<select id="conceptList" class="largeWidth" size="6" multiple="multiple">
 								<c:forEach items="${concepts}" var="concept">
 									<option value="${concept.uuid}">${concept.name}</option>
@@ -183,11 +183,11 @@
 							<input type="button" id="removeConcept" value="remove"/>
 						</li>
 						<li>
-							<label for="searchConcept"><spring:message code="mclinic.conceptConfiguration.conceptSearch"/></label>
+							<label for="searchConcept"><spring:message code="mclinic.programConfiguration.conceptSearch"/></label>
 							<input type="hidden" id="conceptUuids" name="conceptUuids" value="${conceptUuids}"/>
 							<input type="text" id="searchConcept" class="search" size="43"/>
 						</li>
-						<li><input type="submit" value="<spring:message code='mclinic.conceptConfiguration.conceptSave' />"/></li>
+						<li><input type="submit" value="<spring:message code='mclinic.programConfiguration.conceptSave' />"/></li>
 					</ol>
 				</fieldset>
 			</form>

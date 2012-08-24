@@ -51,16 +51,16 @@
 		<fieldset>
 			<ol>
 				<li>
-					<label for="configurationName"><spring:message code="mclinic.conceptConfiguration.name"/></label>
+					<label for="configurationName"><spring:message code="mclinic.programConfiguration.name"/></label>
 					<input name="name" type="text" id="configurationName" value="${configuration.name}"/>
 				</li>
 				<li>
-					<label for="configurationDescription"><spring:message code="mclinic.conceptConfiguration.description"/></label>
+					<label for="configurationDescription"><spring:message code="mclinic.programConfiguration.description"/></label>
 					<textarea name="description" id="configurationDescription" rows="20" cols="50">${configuration.description}</textarea>
 				</li>
 				<li>
 					<input type="hidden" id="configurationUuid" name="configurationUuid" value="${configuration.uuid}" />
-					<input type="submit" value="<spring:message code='mclinic.conceptConfiguration.save' />"/>
+					<input type="submit" value="<spring:message code='mclinic.programConfiguration.save' />"/>
 				</li>
 			</ol>
 		</fieldset>

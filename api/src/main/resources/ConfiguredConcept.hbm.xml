@@ -13,7 +13,7 @@
 
 		<many-to-one name="concept" class="org.openmrs.Concept" column="concept_id" not-null="true" />
 
-		<many-to-one name="conceptConfiguration" class="org.openmrs.module.mclinic.api.ConceptConfiguration" column="configuration_id" />
+		<many-to-one name="conceptConfiguration" class="org.openmrs.module.mclinic.api.ProgramConfiguration" column="configuration_id" />
 
 		<many-to-one name="creator" class="org.openmrs.User" not-null="true">
 			<column name="creator"/>

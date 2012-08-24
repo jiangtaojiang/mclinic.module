@@ -1,20 +1,5 @@
 package org.openmrs.module.mclinic.serialization.processor;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -25,7 +10,7 @@ import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.cohort.CohortSearchHistory;
-import org.openmrs.module.mclinic.api.ConceptConfiguration;
+import org.openmrs.module.mclinic.api.ProgramConfiguration;
 import org.openmrs.module.mclinic.api.service.MclinicService;
 import org.openmrs.module.mclinic.api.utils.MclinicUtil;
 import org.openmrs.module.mclinic.reporting.metadata.DefinitionProperty;
@@ -43,6 +28,15 @@ import org.openmrs.reporting.PatientSearch;
 import org.openmrs.reporting.PatientSearchReportObject;
 import org.openmrs.util.HandlerUtil;
 import org.openmrs.util.OpenmrsConstants;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 @SuppressWarnings("deprecation")
 public class HttpProcessor implements Processor {
@@ -157,9 +151,9 @@ public class HttpProcessor implements Processor {
 		
 		// check the concept list
 		Collection<Concept> concepts = null;
-		ConceptConfiguration conceptConfiguration = mclinicService.getConceptConfiguration(programId);
-		if (conceptConfiguration != null)
-			concepts = MclinicUtil.getConcepts(conceptConfiguration.getConfiguredConcepts());
+		ProgramConfiguration programConfiguration = mclinicService.getProgramConfiguration(programId);
+		if (programConfiguration != null)
+			concepts = MclinicUtil.getConcepts(programConfiguration.getConfiguredConcepts());
 		
 		log.debug("Streaming observations information!");
 		serializer.write(dataOutputStream, mclinicService.getCohortObservations(cohort, concepts));
@@ -220,9 +214,9 @@ public class HttpProcessor implements Processor {
 
 		Collection<Concept> concepts = null;
 		MclinicService mclinicService = (MclinicService) Context.getService(MclinicService.class);
-		ConceptConfiguration conceptConfiguration = mclinicService.getConceptConfiguration(programId);
-		if (conceptConfiguration != null)
-			concepts = MclinicUtil.getConcepts(conceptConfiguration.getConfiguredConcepts());
+		ProgramConfiguration programConfiguration = mclinicService.getProgramConfiguration(programId);
+		if (programConfiguration != null)
+			concepts = MclinicUtil.getConcepts(programConfiguration.getConfiguredConcepts());
 		log.debug("Streaming observations information!");
 
 		serializer.write(dataOutputStream, mclinicService.getCohortObservations(new Cohort(patients), concepts));

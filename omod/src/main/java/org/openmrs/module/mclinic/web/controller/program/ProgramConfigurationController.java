@@ -42,13 +42,13 @@ public class ProgramConfigurationController {
 	public
 	@ResponseBody
 	Boolean delete(final @RequestParam(value = "uuid", required = false) String uuid) {
-		Boolean deleted = Boolean.FALSE;
+		Boolean deleted =false;
 		MclinicService service = Context.getService(MclinicService.class);
 		ProgramConfiguration programConfiguration = service.getProgramConfigurationByUuid(uuid);
 		if (programConfiguration != null) {
-			programConfiguration.setRetired(Boolean.TRUE);
+			programConfiguration.setRetired(true);
 			service.saveProgramConfiguration(programConfiguration);
-			deleted = Boolean.TRUE;
+			deleted = true;
 		}
 		return deleted;
 	}

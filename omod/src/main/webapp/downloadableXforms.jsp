@@ -65,32 +65,30 @@
 </div>	
 
 <c:if test="${fn:length(downloadableXforms) > 0}">
-	<div style="width:70%;">
-		<b class="boxHeader"><spring:message code="mclinic.downloadableXforms"/></b>
-		<div class="box">
-			<form method="post" name="resourcesForm" onSubmit="return (checkSelected(this) && confirmDelete())">
-				<table cellpadding="2" cellspacing="0" width="98%">
-					<tr>
-						<th></th>
-						<th><spring:message code="mclinic.downloadableXforms.formId"/></th>
-						<th><spring:message code="general.name"/></th>
-                        <th><spring:message code="mclinic.programConfiguration.title"/></th>
-						<th><spring:message code="mclinic.downloadableXforms.xform.uploadedOn"/></th>
+	<b class="boxHeader"><spring:message code="mclinic.downloadableXforms"/></b>
+	<div class="box">
+		<form method="post" name="resourcesForm" onSubmit="return (checkSelected(this) && confirmDelete())">
+			<table cellpadding="2" cellspacing="0" width="98%">
+				<tr>
+					<th></th>
+					<th><spring:message code="mclinic.downloadableXforms.formId"/></th>
+					<th><spring:message code="general.name"/></th>
+	                      <th><spring:message code="mclinic.programConfiguration.title"/></th>
+					<th><spring:message code="mclinic.downloadableXforms.xform.uploadedOn"/></th>
+				</tr>
+				<c:forEach var="var" items="${downloadableXforms}" varStatus="status">
+					<tr class="<c:choose><c:when test="${status.index % 2 == 0}">oddRow</c:when><c:otherwise>evenRow</c:otherwise></c:choose>">
+						<td><input type="checkbox" name="mclinicXformId" value="${var.mclinicXformId}" onclick="clearError('mclinicXformId')"/></td>
+						<td valign="top" style="white-space: nowrap">${var.xformId}</td>
+						<td valign="top" style="white-space: nowrap">${var.xformName}</td>
+	                          <td valign="top" style="white-space: nowrap">${var.program.name}</td>
+						<td valign="top">${var.xformMeta}</td>
 					</tr>
-					<c:forEach var="var" items="${downloadableXforms}" varStatus="status">
-						<tr class="<c:choose><c:when test="${status.index % 2 == 0}">oddRow</c:when><c:otherwise>evenRow</c:otherwise></c:choose>">
-							<td><input type="checkbox" name="mclinicXformId" value="${var.mclinicXformId}" onclick="clearError('mclinicXformId')"/></td>
-							<td valign="top" style="white-space: nowrap">${var.xformId}</td>
-							<td valign="top" style="white-space: nowrap">${var.xformName}</td>
-                            <td valign="top" style="white-space: nowrap">${var.program.name}</td>
-							<td valign="top">${var.xformMeta}</td>
-						</tr>
-					</c:forEach>
-				</table>
-				<input type="submit" name="action" value="<spring:message code='mclinic.downloadableXforms.delete'/>">
-				<span class="error" id="mclinicXformIdError"><spring:message code='mclinic.downloadableXforms.delete.empty'/></span>
-			</form>
-		</div>
+				</c:forEach>
+			</table>
+			<input type="submit" name="action" value="<spring:message code='mclinic.downloadableXforms.delete'/>">
+			<span class="error" id="mclinicXformIdError"><spring:message code='mclinic.downloadableXforms.delete.empty'/></span>
+		</form>
 	</div>
 </c:if>
 

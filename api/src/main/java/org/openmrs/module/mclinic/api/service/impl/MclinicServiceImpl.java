@@ -203,6 +203,11 @@ public class MclinicServiceImpl extends BaseOpenmrsService implements MclinicSer
 	public void deleteDownloadableXform(MclinicXform mclinicXform) {
 		dao.deleteDownloadableXform(mclinicXform);
 	}
+	
+	@Override
+	public List<MclinicXform> getDownloadableXformsByProgram(ProgramConfiguration program) {
+		return dao.getDownloadableXformsByProgram(program);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.openmrs.module.mclinic.MclinicService#getAllXformsErrors()

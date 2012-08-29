@@ -103,4 +103,6 @@ public interface MclinicDAO {
 	public MclinicXform getDownloadableXformByName(String formName);
 
 	public List<XformsError> getErrorsByFormName(String formName);
+
+	List<MclinicXform> getDownloadableXformsByProgram(ProgramConfiguration program);
 }

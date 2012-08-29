@@ -149,4 +149,6 @@ public interface MclinicService extends OpenmrsService {
 	public void deleteDownloadableXform(MclinicXform mclinicXform);
 
 	public MclinicXform getDownloadableXformByName(String formName);
+
+	List<MclinicXform> getDownloadableXformsByProgram(ProgramConfiguration program);
 }

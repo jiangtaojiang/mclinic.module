@@ -188,4 +188,12 @@ public class HibernateMclinicDAO implements MclinicDAO {
 		criteria.add(Expression.like("formName", formName));
 		return criteria.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MclinicXform> getDownloadableXformsByProgram(ProgramConfiguration program) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MclinicXform.class);
+		criteria.add(Expression.like("program", program));
+		return criteria.list();
+	}
 }

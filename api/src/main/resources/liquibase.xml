@@ -59,7 +59,7 @@
     </changeSet>
     <changeSet author="sthaiya" id="1341069166359-3">
         <addForeignKeyConstraint baseColumnNames="creator" baseTableName="mclinic_xform"
-                                 constraintName="user_who_added_xform" deferrable="false" initiallyDeferred="false"
+                                 constraintName="user_who_added_mclinic_xform" deferrable="false" initiallyDeferred="false"
                                  referencedColumnNames="user_id" referencedTableName="users"/>
     </changeSet>
     <changeSet author="sthaiya" id="1341069166359-4">
